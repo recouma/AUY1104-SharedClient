@@ -1,0 +1,22 @@
+{
+  "name": "demo-api",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --forceExit --detectOpenHandles --maxWorkers=1 --testTimeout=10000"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "forceExit": true,
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ]
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}

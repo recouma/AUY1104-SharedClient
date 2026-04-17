@@ -1,0 +1,26 @@
+name: Validación CI - Tests y build sin publicar
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'fix/**'
+
+jobs:
+  test-and-build:
+    name: Pruebas y build sin publicar
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1 · Descargar el código
+        uses: actions/checkout@v4
+
+      - name: 2 · Instalar dependencias
+        run: npm install
+
+      - name: 3 · Ejecutar pruebas
+        run: npm test
+
+      - name: 4 · Construir imagen sin publicar
+        run: |
+          docker build -t demo-api:ci-${{ github.sha }} .
+          echo "Imagen construida correctamente - no se publica"
