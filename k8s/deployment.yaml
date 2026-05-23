@@ -1,0 +1,27 @@
+   apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-ramo
+  labels:
+    app: app-ramo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-ramo
+  template:
+    metadata:
+      labels:
+        app: app-ramo
+    spec:
+      containers:
+        - name: app-ramo
+          image: recouma/demo-api:latest
+          ports:
+            - containerPort: 3000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
