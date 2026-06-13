@@ -14,13 +14,18 @@ jobs:
       - name: 1 · Descargar el código
         uses: actions/checkout@v4
 
-      - name: 2 · Instalar dependencias
-        run: npm install
+      - name: 2 · Configurar Node.js v20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: 3 · Ejecutar pruebas
+      - name: 3 · Instalar dependencias
+        run: npm ci
+
+      - name: 4 · Ejecutar pruebas
         run: npm test
 
-      - name: 4 · Construir imagen sin publicar
+      - name: 5 · Construir imagen sin publicar
         run: |
           docker build -t demo-api:ci-${{ github.sha }} .
           echo "Imagen construida correctamente - no se publica"
