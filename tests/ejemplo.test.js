@@ -1,7 +1,7 @@
 const { salud, saludo } = require('../src/lib/ejemplo');
 
 test('salud retorna status ok', () => {
-  expect(salud()).toEqual({ status: 'FALLO_INTENCIONAL' });
+  expect(salud()).toEqual({ status: 'ok' });
 });
 
 test('saludo sin nombre retorna hola mundo', () => {
