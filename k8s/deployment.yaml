@@ -1,21 +1,26 @@
-   apiVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-ramo
+  name: demo-api
   labels:
-    app: app-ramo
+    app: demo-api
 spec:
   replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   selector:
     matchLabels:
-      app: app-ramo
+      app: demo-api
   template:
     metadata:
       labels:
-        app: app-ramo
+        app: demo-api
     spec:
       containers:
-        - name: app-ramo
+        - name: demo-api
           image: recouma/demo-api:latest
           ports:
             - containerPort: 3000
@@ -24,4 +29,5 @@ spec:
               path: /health
               port: 3000
             initialDelaySeconds: 5
-            periodSeconds: 10
+            periodSeconds: 5
+            failureThreshold: 3
