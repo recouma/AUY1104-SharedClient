@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: demo-api
-          image: recouma/demo-api:latest
+          image: recouma/demo-api:v99.99.99-inexistente
           ports:
             - containerPort: 3000
           readinessProbe:
