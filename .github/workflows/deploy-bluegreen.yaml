@@ -34,5 +34,4 @@ jobs:
       image_name: recouma/demo-api
       image_tag: ${{ github.ref_name }}
     secrets:
-      EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
-      EC2_HOST: ${{ secrets.EC2_HOST }}
+      KUBECONFIG_DATA: ${{ secrets.KUBECONFIG_DATA }}
