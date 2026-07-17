@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-green
+  labels:
+    app: orders
+    version: green
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: orders
+      version: green
+  template:
+    metadata:
+      labels:
+        app: orders
+        version: green
+    spec:
+      containers:
+      - name: orders
+        image: recouma/demo-api:latest
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3

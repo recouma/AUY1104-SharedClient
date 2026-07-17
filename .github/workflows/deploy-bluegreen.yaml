@@ -1,0 +1,38 @@
+name: "Deploy Blue-Green to K3s"
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
+
+  build-and-push:
+    needs: tests
+    uses: recouma/AUY1104-SharedWorkflows/.github/workflows/build-push.yaml@main
+    with:
+      image_name: recouma/demo-api
+      image_tag: ${{ github.ref_name }}
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  deploy:
+    needs: build-and-push
+    uses: recouma/AUY1104-SharedWorkflows/.github/workflows/deploy-bluegreen.yaml@main
+    with:
+      image_name: recouma/demo-api
+      image_tag: ${{ github.ref_name }}
+      ec2_host: ${{ secrets.EC2_HOST }}
+    secrets:
+      EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
